@@ -1,0 +1,47 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>'Allo, 'Allo!</h1>
+    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
+    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Features:</h1>
+      <ul class="nav nav-tabs nav-stacked col-lg-6" ng-repeat="thing in awesomeThings">
+        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}</a></li>
+      </ul>
+      {{current}}
+      <br>
+      <button class="btn btn-primary" ng-click="addAllJobs()">addAllJobs()</button>
+      <button class="btn btn-primary" ng-click="getSkills('Developer')">getSkills('developer')</button>
+
+      <p>-{{current}}</p>
+
+
+      <table style="width:300px">
+      <tr>
+        <th>Skill</th>
+        <th>Number</th>
+      </tr>
+      <tr ng-repeat="skill in results | orderBy:'value':true | limitTo: 75">
+        <td>{{skill.name}}</td>
+        <td>{{skill.value}}</td>
+      </tr>
+      </table>
+
+      <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+      <!-- <p><a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
+         <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p> -->
+  </div>
+</footer>
