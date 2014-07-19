@@ -6,8 +6,8 @@ This app was built using MongoDB, Express, Node, Angular, and High Charts.
 
 Primary Features
 ---------
-* **High Charts**: [High Charts](http://www.highcharts.com/) Highcharts is a charting library written in pure JavaScript, offering an easy way of adding interactive charts to your web site or web application. Highcharts currently supports line, spline, area, areaspline, column, bar, pie, scatter, angular gauges, arearange, areasplinerange, columnrange, bubble, box plot, error bars, funnel, waterfall and polar chart types.
-![](/assets/images/high-charts.png?raw=true)
+* **High Charts**: [High Charts](http://www.highcharts.com/) is a charting library written in pure JavaScript, offering an easy way of adding interactive charts to your web site or web application. Highcharts currently supports line, spline, area, areaspline, column, bar, pie, scatter, angular gauges, arearange, areasplinerange, columnrange, bubble, box plot, error bars, funnel, waterfall and polar chart types.
+![](client/assets/images/high-charts.png?raw=true)
 * **API calls**: With a single click every job on Angel List (over 23,000) are gathered, scrubbed, and stored in a MongoDB.
 ```
 var populateJobs = function (element, index, array) {
