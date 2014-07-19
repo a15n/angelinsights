@@ -6,6 +6,8 @@ Secure sign in as administrator (maybe admin page, maybe admin toolbar)
 
 Add links to all list items
 
+Check the number of jobs, companies, postings, etc.
+
 Make a time stamped line chart after I've scrubbed the words
 
 WORD PLAY
