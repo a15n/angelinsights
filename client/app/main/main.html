@@ -34,10 +34,12 @@
         <hr>
         <table>
           <tr>
+            <th>#</th>
             <th>Skill</th>
             <th>Number</th>
           </tr>
-          <tr ng-repeat="skill in skillsArray | orderBy:'value':true">
+          <tr ng-repeat="skill in skillsArray | orderBy:'value':true track by $index">
+            <td>{{$index + 1}}</td>
             <td>{{skill.name}} </td>
             <td>{{skill.value}}</td>
           </tr>

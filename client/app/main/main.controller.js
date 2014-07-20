@@ -28,6 +28,27 @@ angular.module('angelinsightsApp')
 
 ////////////////////////////////////////////////
 
+    var targetWords = {
+        "Angular.JS": ["AngularJS", "Angular", "Angular JS"],
+        "Node.js": ["NodeJS", "Node.js Developer", "Node", "NodeJS/Express", "Node.js development", "Node.js (Socket.io)", "Real time Applications (node.js, stream.io)"],
+        "MongoDB": ["NoSQL (MongoDB)"],
+        "Backbone.js": ["BackboneJS", "Backbone", "Backbone.Marionette"],
+        "ExpressJs": ["Express.js"]
+    };
+
+    var combineSimilarWords = function (originalObject) {
+        var targetObject = targetWords;
+        for (var originalWord in originalObject) {
+            for (var targetWord in targetObject) {
+                if (targetObject[targetWord].indexOf(originalWord) > -1) {
+                    originalObject[targetWord] = originalObject[targetWord] + originalObject[originalWord];
+                    delete originalObject[originalWord];
+                }
+            }
+        }
+        return originalObject;
+    };
+
     var jobScrub = function (inputObject, skillsHash, role) {
       if (typeof inputObject !== "object" || typeof role !== "string"){
       throw "input object and/or role missing/incorrect";
@@ -52,30 +73,16 @@ angular.module('angelinsightsApp')
       return outputArray;
     };
 
-    // $scope.roles = [
-    //   "Designer",
-    //   "Developer",
-    //   "Mobile Developer",
-    //   "Operations",
-    //   "Designer",
-    //   "Finance",
-    //   "Developer",
-    //   "Marketing",
-    //   "Product Manager",
-    //   "Sales",
-    //   "Human Resources"
-    // ];
-
     $scope.roles = [
-      {name:'Developer', shade:'light'},
-      {name:'Designer', shade:'dark'},
-      {name:'Mobile Developer', shade:'dark'},
-      {name:'Operations', shade:'dark'},
-      {name:'Finance', shade:'light'},
-      {name:'Marketing', shade:'light'},
-      {name:'Product Manager', shade:'light'},
-      {name:'Sales', shade:'light'},
-      {name:'Human Resources', shade:'light'}
+      {name:'Developer'},
+      {name:'Designer'},
+      {name:'Mobile Developer'},
+      {name:'Operations'},
+      {name:'Finance'},
+      {name:'Marketing'},
+      {name:'Product Manager'},
+      {name:'Sales'},
+      {name:'Human Resources'}
     ];
 
     $scope.addAllJobs = function () {
@@ -97,19 +104,18 @@ angular.module('angelinsightsApp')
         data.forEach(function(element, index, array){
           jobScrub(data[index], $scope.current, role);
         });
-        $scope.skillsArray = objToArray($scope.current);
+        $scope.skillsArray = objToArray(combineSimilarWords($scope.current));
         chartObject.jobsAnalyzed = $scope.skillsArray.length;
         chartObject.sortedArray = $scope.skillsArray.sort(function(a, b){
           return a.value-b.value;
         }).reverse();
-        chartObject.topTen = [];
-        chartObject.topTenTotal = 0;
-        for (var i = 0; i < 10; i++) {
+        chartObject.topFifteen = [];
+        // chartObject.topFifteenTotal = 0;
+        for (var i = 0; i < 15; i++) {
           var name = chartObject.sortedArray[i].name;
           var value = chartObject.sortedArray[i].value;
-          chartObject.topTen.push([name, value]);
+          chartObject.topFifteen.push([name, value]);
         }
-        $scope.test = chartObject.topTen;
         makeChart(chartObject);
         $scope.loading = false;
       });
@@ -135,7 +141,7 @@ angular.module('angelinsightsApp')
 
           },
           title: {
-            text: 'Top 10 in demand ' + chartObject.role + ' skills on Angel List'
+            text: 'Top 15 in demand ' + chartObject.role + ' skills on Angel List'
           },
           subtitle: {
             text: chartObject.jobsAnalyzed + ' jobs analyzed'
@@ -160,7 +166,7 @@ angular.module('angelinsightsApp')
           series: [{
               type: 'pie',
               name: 'Top 10 share',
-              data: chartObject.topTen
+              data: chartObject.topFifteen
           }]
       });
       $scope.chartExists = true;
