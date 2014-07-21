@@ -30,10 +30,32 @@
 }
 
 .center {
-    float: none;
-    margin: 0 auto;
+    text-align: center;
 }
 
-#container {
+$container-width: 100%;
+$container-height: ($container-width * 50%);
+
+#chartContainer {
     width: 1000px; height: 400px
 }
+
+.table {
+    margin: 0 auto;
+    /*font-size: 12px;*/
+    width: 100%;
+    /*text-align: left;*/
+    border-collapse: collapse;
+    border: 2px solid white;
+    border-radius: 10px;
+    tr {
+        background-color: #7CB5EC;
+    }
+    .table-even {
+        background-color: white;
+    }
+    .table-odd {
+        background-color: #a8d5ff;
+    }
+}
+

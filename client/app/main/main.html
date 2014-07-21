@@ -2,7 +2,7 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>Welcome to Angel Insights <sup>*beta</sup></h1>
+    <h1>Welcome to Angel Insights</h1>
     <p class="lead">Gain valuable insights into Angel List's job statistics</p>
   </div>
 </header>
@@ -11,39 +11,44 @@
   <div class="row">
     <div class="col-lg-12">
       <br>
-      <!-- add back in when secure. also add remove buttons -->
+      <!-- add back in when secure -->
       <!-- <button class="btn btn-primary" ng-click="addAllJobs()">addAllJobs()</button> -->
-      <br>
-      <br>
-
-      <p>Learn the right skills! Choose a role to see all the skills that Angel List companies want.</p>
-      <select ng-model="selectedRole" ng-options="role.name for role in roles"></select>
-      <br>
-      <br>
-
-      <button class="btn btn-primary" ng-click="getSkills(selectedRole.name)" ng-disabled="!selectedRole || loading">Analyze Job Postings</button>
-      <br>
-      <div ng-show="loading === true">
-        <i class="fa fa-spinner fa-spin fa-5x"></i>
-        <p>Please wait about 30 seconds. 23,000 Angel List job postings being analyzed for {{selectedRole.name}} positions.</p>
+      <div class="center">
+        <p>Learn the right skills! Choose a role to see all the skills that Angel List companies want.</p>
+        <p>Over 23,000 jobs are analyzed and the data set is automatically updated every week.</p>
+        <select ng-model="selectedRole" ng-options="role.name for role in roles"></select>
+        <br>
+        <br>
+        <button class="btn btn-primary" ng-click="getSkills(selectedRole.name)" ng-disabled="!selectedRole || loading">Analyze Job Postings</button>
+        <br>
+        <br>
+        <div ng-show="loading === true">
+          <i class="fa fa-spinner fa-spin fa-5x"></i>
+        </div>
       </div>
 
-      <div ng-show="loading === false">
+      <div ng-show="loading === true" class="col-lg-12">
         <hr>
-        <div id="chartContainer" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+        <!-- <div id="chartContainer" style="width: 1000px; height: 400px;
+        margin: 0 auto"></div> -->
+        <div id="chartContainer"></div>
         <hr>
-        <table>
+        <table class="table">
           <tr>
             <th>#</th>
             <th>Skill</th>
             <th>Number</th>
           </tr>
-          <tr ng-repeat="skill in skillsArray | orderBy:'value':true track by $index">
+          <!-- <tr ng-repeat="skill in skillsArray | orderBy:'value':true track by $index" ng-class="{'table-even': $index % 2 === 0, 'table-odd': $index % 2 !== 0}"> -->
+          <tr ng-repeat="skill in skillsArray | orderBy:'value':true | limitTo:limit " ng-class="{'table-even': $index % 2 === 0, 'table-odd': $index % 2 !== 0}">
             <td>{{$index + 1}}</td>
             <td>{{skill.name}} </td>
             <td>{{skill.value}}</td>
           </tr>
         </table>
+        <button class="btn btn-primary" ng-click="increaseLimit()" ng-disabled="limitReached">See 50 more</button>
+        <button class="btn btn-primary" ng-click="seeAll()" ng-disabled="limitReached">See all</button>
+
       </div>
 
 

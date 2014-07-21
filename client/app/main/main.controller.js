@@ -1,9 +1,13 @@
 'use strict';
 
+function c (input) {
+  console.log(input);
+}
+
 //http://repl.it/VXf/13
 
 angular.module('angelinsightsApp')
-  .controller('MainCtrl', function ($scope, $http) {
+  .controller('MainCtrl', function ($scope, $http, $interval) {
     $scope.awesomeThings = [];
 
     $http.get('/api/things').success(function(awesomeThings) {
@@ -92,7 +96,10 @@ angular.module('angelinsightsApp')
     };
 
     $scope.getSkills = function (role) {
+      $scope.limit = 50;
+      $scope.limitReached = false;
       var chartObject = {};
+
       chartObject.role = role;
       $scope.current = {};
 
@@ -132,12 +139,12 @@ angular.module('angelinsightsApp')
           chart: {
               plotBackgroundColor: null,
               plotBorderWidth: null,
-              plotShadow: false,
-              events: {
-                redraw: function() {
-                  alert ('The chart is being redrawn');
-                }
-              }
+              plotShadow: false
+              // events: {
+              //   redraw: function() {
+              //     alert ('The chart is being redrawn');
+              //   }
+              // }
 
           },
           title: {
@@ -171,4 +178,23 @@ angular.module('angelinsightsApp')
       });
       $scope.chartExists = true;
     };
+
+    $scope.increaseLimit = function() {
+
+      $scope.limit += 50;
+      c($scope.limit);
+      c($scope.skillsArray.length);
+      if ($scope.limit >= $scope.skillsArray.length) {
+        $scope.limitReached = true;
+      }
+    }
+    $scope.seeAll = function() {
+      $scope.limit = $scope.skillsArray.length;
+      $scope.limitReached = true;
+    }
+
+    $scope.test = function () {
+      $http.delete('/api/jobs');
+    }
+
   });

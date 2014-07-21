@@ -68,3 +68,35 @@ request('https://api.angel.co/1/jobs?page=1', function (error, response, body) {
   }
 })
 ```
+* **Similar Word Combinations**: I built a function that adds the values and combines misspelled skills. For example, "Angular.js" is the most popular spelling so all of the "AngularJS", "Angular", and "Angular JS" properties are combined when the original object is passed through this function.
+```
+var combineSimilarWords = function (originalObject) {
+  var targetObject = targetWords;
+  for (var originalWord in originalObject) {
+    for (var targetWord in targetObject) {
+      if (targetObject[targetWord].indexOf(originalWord) > -1) {
+        originalObject[targetWord] = originalObject[targetWord] + originalObject[originalWord];
+        delete originalObject[originalWord];
+        }
+    }
+  }
+  return originalObject;
+};
+```
+* **Node Task Scheduling**: As the landing page promises, the database is updated once a week. This is handled automatically using [Node Cron](https://github.com/ncb000gt/node-cron) and the following function which executes on the Node/Express server.
+```
+var job = new CronJob({
+  cronTime: '00 30 02 * * 0' // Runs every Sunday at 02:30:00 AM PT.
+  onTick: function() {
+    console.log('Beginning Cron. Deleting DB');
+    Job.remove({},function(){
+      console.log('DB deleted. Populating jobs.');
+      beginPopulateJobs();
+      console.log('Jobs populated. Cron finished. Will begin again in 7 days.');
+    })
+  },
+  start: true,
+  timeZone: "America/San_Francisco"
+});
+job.start();
+```
