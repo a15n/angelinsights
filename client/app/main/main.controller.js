@@ -40,17 +40,19 @@ angular.module('angelinsightsApp')
         "ExpressJs": ["Express.js"]
     };
 
-    var combineSimilarWords = function (originalObject) {
+    var combineSimilarWords = function (originalObject, role) {
+      if (role === "Developer") {
         var targetObject = targetWords;
         for (var originalWord in originalObject) {
-            for (var targetWord in targetObject) {
-                if (targetObject[targetWord].indexOf(originalWord) > -1) {
-                    originalObject[targetWord] = originalObject[targetWord] + originalObject[originalWord];
-                    delete originalObject[originalWord];
-                }
+          for (var targetWord in targetObject) {
+            if (targetObject[targetWord].indexOf(originalWord) > -1) {
+              originalObject[targetWord] = originalObject[targetWord] + originalObject[originalWord];
+              delete originalObject[originalWord];
             }
+          }
         }
-        return originalObject;
+      }
+      return originalObject;
     };
 
     var jobScrub = function (inputObject, skillsHash, role) {
@@ -96,6 +98,7 @@ angular.module('angelinsightsApp')
     };
 
     $scope.getSkills = function (role) {
+      setChartSize();
       $scope.limit = 50;
       $scope.limitReached = false;
       var chartObject = {};
@@ -111,7 +114,7 @@ angular.module('angelinsightsApp')
         data.forEach(function(element, index, array){
           jobScrub(data[index], $scope.current, role);
         });
-        $scope.skillsArray = objToArray(combineSimilarWords($scope.current));
+        $scope.skillsArray = objToArray(combineSimilarWords($scope.current, role));
         chartObject.jobsAnalyzed = $scope.skillsArray.length;
         chartObject.sortedArray = $scope.skillsArray.sort(function(a, b){
           return a.value-b.value;
@@ -140,18 +143,12 @@ angular.module('angelinsightsApp')
               plotBackgroundColor: null,
               plotBorderWidth: null,
               plotShadow: false
-              // events: {
-              //   redraw: function() {
-              //     alert ('The chart is being redrawn');
-              //   }
-              // }
-
           },
           title: {
             text: 'Top 15 in demand ' + chartObject.role + ' skills on Angel List'
           },
           subtitle: {
-            text: chartObject.jobsAnalyzed + ' jobs analyzed'
+            text: chartObject.jobsAnalyzed + ' skills analyzed'
           },
           tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -162,7 +159,7 @@ angular.module('angelinsightsApp')
                   cursor: 'pointer',
                   dataLabels: {
                       enabled: true,
-                      format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                      format: '<b>{point.name}</b>: {point.percentage:.1f}%',
                       style: {
                           color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                       },
@@ -172,7 +169,7 @@ angular.module('angelinsightsApp')
           },
           series: [{
               type: 'pie',
-              name: 'Top 10 share',
+              name: 'Top 15 share',
               data: chartObject.topFifteen
           }]
       });
@@ -193,8 +190,23 @@ angular.module('angelinsightsApp')
       $scope.limitReached = true;
     }
 
-    $scope.test = function () {
+    $scope.delete = function () {
       $http.delete('/api/jobs');
     }
+
+    function setChartSize () {
+      var chartWidth = Math.max($('#parentContainer').width(), 600);
+      if ($('#parentContainer').width() < 600) {
+        $scope.tooSmall = true;
+      } else {
+        $scope.tooSmall = false;
+      }
+      var chartHeight = chartWidth * 0.5;
+      $('#chartContainer').css({
+        'height': chartHeight + 'px',
+        'width':  chartWidth + 'px'
+      });
+    }
+    $(window).resize(setChartSize);
 
   });

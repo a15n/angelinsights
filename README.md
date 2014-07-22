@@ -77,7 +77,7 @@ var combineSimilarWords = function (originalObject) {
       if (targetObject[targetWord].indexOf(originalWord) > -1) {
         originalObject[targetWord] = originalObject[targetWord] + originalObject[originalWord];
         delete originalObject[originalWord];
-        }
+      }
     }
   }
   return originalObject;

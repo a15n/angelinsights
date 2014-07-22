@@ -64,14 +64,23 @@ var beginPopulateJobs = function () {
         pageArray.push(i);
       }
       pageArray.forEach(populateJobs);
+      console.log("DB done populating.");
     }
   })
 }
 
 //http://stackoverflow.com/questions/20499225/i-need-a-nodejs-scheduler-that-allows-for-tasks-at-different-intervals
+var interval = 1;
 var job = new CronJob({
-  cronTime: '0 0 * * * *',
-  // cronTime: '00 30 02 * * 0' // Runs every Sunday at 02:30:00 AM PT.
+  // cronTime: '0 * * * * *',
+  // onTick:function(){
+  //   console.log(("Sadie is the coolest X" + interval + "!").green)
+  //   interval++;
+  // },
+
+
+
+  cronTime: '00 30 02 * * 1-5', // Runs every Sunday at 02:30:00 AM PT.
   onTick: function() {
     console.log('Beginning Cron. Deleting DB');
     Job.remove({},function(){
