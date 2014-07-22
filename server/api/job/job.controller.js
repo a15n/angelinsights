@@ -5,7 +5,7 @@ var Job = require('./job.model');
 var request = require("request");
 var colors = require('colors');
 var mongoose = require('mongoose');
-var CronJob = require('cron').CronJob;
+// var CronJob = require('cron').CronJob;
 
 var populateJobs = function (element, index, array) {
   request('https://api.angel.co/1/jobs?page=' + element, function (error, response, body) {
@@ -70,29 +70,21 @@ var beginPopulateJobs = function () {
 }
 
 //http://stackoverflow.com/questions/20499225/i-need-a-nodejs-scheduler-that-allows-for-tasks-at-different-intervals
-var interval = 1;
-var job = new CronJob({
-  // cronTime: '0 * * * * *',
-  // onTick:function(){
-  //   console.log(("Sadie is the coolest X" + interval + "!").green)
-  //   interval++;
-  // },
-
-
-
-  cronTime: '00 30 02 * * 1-5', // Runs every Sunday at 02:30:00 AM PT.
-  onTick: function() {
-    console.log('Beginning Cron. Deleting DB');
-    Job.remove({},function(){
-      console.log('DB deleted. Populating jobs.');
-      beginPopulateJobs();
-      console.log('Jobs populated. Cron finished. Will begin again in 7 days.');
-    })
-  },
-  start: true,
-  timeZone: "America/San_Francisco"
-});
-job.start();
+// var interval = 1;
+// var job = new CronJob({
+//   cronTime: '00 30 02 * * 1-5', // Runs every Sunday at 02:30:00 AM PT.
+//   onTick: function() {
+//     console.log('Beginning Cron. Deleting DB');
+//     Job.remove({},function(){
+//       console.log('DB deleted. Populating jobs.');
+//       beginPopulateJobs();
+//       console.log('Jobs populated. Cron finished. Will begin again in 7 days.');
+//     })
+//   },
+//   start: true,
+//   timeZone: "America/San_Francisco"
+// });
+// job.start();
 
 // Get list of jobs
 exports.index = function(req, res) {

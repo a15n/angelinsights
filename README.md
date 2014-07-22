@@ -1,4 +1,4 @@
-Angel Insights *beta
+Angel Insights
 =========
 [Angel Insights](http://angelinsights.herokuapp.com/) sheds light on the hiring needs of the different companies on Angel List. Want to make yourself more marketable? Find out what skills are currently in demand.
 
@@ -82,21 +82,4 @@ var combineSimilarWords = function (originalObject) {
   }
   return originalObject;
 };
-```
-* **Node Task Scheduling**: As the landing page promises, the database is updated once a week. This is handled automatically using [Node Cron](https://github.com/ncb000gt/node-cron) and the following function which executes on the Node/Express server.
-```
-var job = new CronJob({
-  cronTime: '00 30 02 * * 0' // Runs every Sunday at 02:30:00 AM PT.
-  onTick: function() {
-    console.log('Beginning Cron. Deleting DB');
-    Job.remove({},function(){
-      console.log('DB deleted. Populating jobs.');
-      beginPopulateJobs();
-      console.log('Jobs populated. Cron finished. Will begin again in 7 days.');
-    })
-  },
-  start: true,
-  timeZone: "America/San_Francisco"
-});
-job.start();
 ```
