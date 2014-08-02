@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var sendgrid  = require('sendgrid')(
+  process.env.SENDGRID_USERNAME,
+  process.env.SENDGRID_PASSWORD
+);
+
+var num1 = Math.ceil(Math.random() * 100);
+var num2 = Math.ceil(Math.random() * 100);
+var comparator;
+
+if (num1 > num2) {
+	comparator = "greater than";
+} else if (num1 < num2) {
+	comparator = "less than";
+} else {
+	comparator = "equal to";
+}
+
+sendgrid.send({
+    to: 'andrewscheuermann@gmail.com',
+    from: 'scheduler@tester.com',
+    subject: 'Num1 v Num2',
+    text: (num1 + ' is ' + comparator + " " + num2 + ".")
+  }, function(err, json) {
+    if (err) {
+      console.error(err);
+    }
+});
