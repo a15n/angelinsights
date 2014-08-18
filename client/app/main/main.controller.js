@@ -184,7 +184,8 @@ angular.module('angelinsightsApp')
       if ($scope.limit >= $scope.skillsArray.length) {
         $scope.limitReached = true;
       }
-    }
+    };
+
     $scope.seeAll = function() {
       $scope.limit = $scope.skillsArray.length;
       $scope.limitReached = true;
